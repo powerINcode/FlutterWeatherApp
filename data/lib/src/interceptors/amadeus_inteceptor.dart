@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:data/src/services/amadeus_city_service.dart';
+import 'package:core/logger/storage/secure_storage.dart';
+import 'package:data/src/services/auth_service.dart';
 import 'package:dio/dio.dart';
-import 'package:get_secure_storage/get_secure_storage.dart';
 
 import '../dto/amadeus_token_dto.dart';
 
 class AmadeusInterceptor extends Interceptor {
   const AmadeusInterceptor({
-    required AmadeusCityService service,
-    required GetSecureStorage storage,
+    required AuthService service,
+    required SecureStorage storage,
     required String clientId,
     required String clientSecret,
   })  : _storage = storage,
@@ -17,16 +17,17 @@ class AmadeusInterceptor extends Interceptor {
         _clientSecret = clientSecret,
         _clientId = clientId;
 
-  static const tokenKey = 'tokenKey';
+  static const _tokenKey = 'tokenKey';
 
-  final AmadeusCityService _service;
-  final GetSecureStorage _storage;
+  final AuthService _service;
+  final SecureStorage _storage;
 
   final String _clientId;
   final String _clientSecret;
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     final token = await _getToken();
     options.headers.addAll({'Authorization': 'Bearer $token'});
 
@@ -34,7 +35,7 @@ class AmadeusInterceptor extends Interceptor {
   }
 
   Future<String?> _getToken() async {
-    final tokenJson = _storage.read(tokenKey);
+    final tokenJson = await _storage.read(_tokenKey);
     if (tokenJson != null) {
       final token = AmadeusTokenDto.fromJson(jsonDecode(tokenJson));
       if (token.expiresIn < DateTime.now().millisecondsSinceEpoch) {
@@ -43,12 +44,15 @@ class AmadeusInterceptor extends Interceptor {
     }
 
     return _service
-        .getToken(
+        .getAmadeusToken(
       clientId: _clientId,
       clientSecret: _clientSecret,
     )
         .then((dto) {
-      _storage.write(tokenKey, dto.toJson());
+      _storage.write(
+        key: _tokenKey,
+        value: jsonEncode(dto.toJson()),
+      );
 
       return dto;
     }).then((dto) => dto.accessToken);

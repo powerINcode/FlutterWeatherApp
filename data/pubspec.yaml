@@ -16,6 +16,7 @@ dependencies:
   flutter:
     sdk: flutter
   get_it: ^7.7.0
+  get_secure_storage: ^1.0.5
   json_annotation: ^4.8.0
   retrofit: ^4.1.0
   talker_dio_logger: ^4.1.3

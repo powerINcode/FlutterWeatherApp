@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_weather_app/di.dart';
 import 'package:flutter_weather_app/firebase_options.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:get_secure_storage/get_secure_storage.dart';
 
 // TODO
 // logging
@@ -15,6 +16,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await GetSecureStorage.init();
 
   await SystemChrome.setPreferredOrientations(
     [

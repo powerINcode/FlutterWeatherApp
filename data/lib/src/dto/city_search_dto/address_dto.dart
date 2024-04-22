@@ -1,3 +1,4 @@
+import 'package:domain/index.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'address_dto.g.dart';
@@ -23,4 +24,14 @@ class AddresDto {
   }
 
   Map<String, dynamic> toJson() => _$AddresDtoToJson(this);
+}
+
+extension AddressX on AddresDto {
+  City toDomain() => City(
+        cityName: cityName,
+        cityCode: cityCode,
+        countryName: countryName,
+        countryCode: countryCode,
+        regionCode: regionCode,
+      );
 }

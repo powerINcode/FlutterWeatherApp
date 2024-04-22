@@ -23,7 +23,8 @@ class MainDto {
     required this.humidity,
   });
 
-  factory MainDto.fromJson(Map<String, dynamic> json) => _$MainDtoFromJson(json);
+  factory MainDto.fromJson(Map<String, dynamic> json) =>
+      _$MainDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$MainDtoToJson(this);
 }

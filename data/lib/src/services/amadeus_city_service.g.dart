@@ -24,7 +24,7 @@ class _AmadeusCityService implements AmadeusCityService {
     String subType = 'CITY',
     String view = 'FULL',
     String sort = 'analytics.travelers.score',
-    int page = 1,
+    int page = 100,
     int offset = 0,
   }) async {
     final _extra = <String, dynamic>{};

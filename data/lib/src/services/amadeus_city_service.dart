@@ -15,7 +15,7 @@ abstract class AmadeusCityService {
     @Query('subType') String subType = 'CITY',
     @Query('view') String view = 'FULL',
     @Query('sort') String sort = 'analytics.travelers.score',
-    @Query('page[limit]') int page = 1,
+    @Query('page[limit]') int page = 100,
     @Query('page[offset]') int offset = 0,
   });
 }

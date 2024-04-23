@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import '../dto/amadeus_token_dto.dart';
 
 class AmadeusInterceptor extends Interceptor {
-  const AmadeusInterceptor({
+  AmadeusInterceptor({
     required AmadeusAuthService service,
     required SecureStorage storage,
     required String clientId,
@@ -24,6 +24,7 @@ class AmadeusInterceptor extends Interceptor {
 
   final String _clientId;
   final String _clientSecret;
+  int _tokenExpireIn = 0;
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
@@ -37,7 +38,7 @@ class AmadeusInterceptor extends Interceptor {
     final tokenJson = await _storage.read(_tokenKey);
     if (tokenJson != null) {
       final token = AmadeusTokenDto.fromJson(jsonDecode(tokenJson));
-      if (token.expiresIn < DateTime.now().millisecondsSinceEpoch) {
+      if (DateTime.now().millisecondsSinceEpoch <= _tokenExpireIn) {
         return token.accessToken;
       }
     }
@@ -52,6 +53,9 @@ class AmadeusInterceptor extends Interceptor {
         key: _tokenKey,
         value: jsonEncode(dto.toJson()),
       );
+
+      final expireIn = DateTime.now()..add(Duration(seconds: dto.expiresIn));
+      _tokenExpireIn = expireIn.millisecondsSinceEpoch;
 
       return dto;
     }).then((dto) => dto.accessToken);

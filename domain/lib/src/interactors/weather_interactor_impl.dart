@@ -1,6 +1,5 @@
 import 'package:core/data/data.dart';
 import 'package:domain/index.dart';
-import 'package:domain/src/interactors/weather_interactor.dart';
 
 class WeatherInteractorImpl implements WeatherInteractor {
   const WeatherInteractorImpl({
@@ -19,6 +18,9 @@ class WeatherInteractorImpl implements WeatherInteractor {
 
   @override
   Future<Data<List<City>>> search(String query) async {
+    if (query.isEmpty) {
+      return const Data.value(value: []);
+    }
     return _cityRepository.search(query);
   }
 }

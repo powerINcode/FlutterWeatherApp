@@ -5,7 +5,9 @@ import 'package:core/logger/storage/secure_storage.dart';
 import 'package:core/logger/storage/secure_storage_impl.dart';
 import 'package:core/logger/storage/storage.dart';
 import 'package:data/index.dart';
+import 'package:domain/index.dart';
 import 'package:flutter_weather_app/environment_configuration.dart';
+import 'package:flutter_weather_app/features/search/di.dart';
 import 'package:get_it/get_it.dart';
 
 abstract class AppModule {
@@ -29,5 +31,13 @@ abstract class AppModule {
         ),
       ),
     );
+
+    DomainModule.register();
+
+    _features();
+  }
+
+  static void _features() {
+    SearchFeatureDependencies.register();
   }
 }

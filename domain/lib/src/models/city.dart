@@ -10,5 +10,7 @@ class City with _$City {
     required String countryName,
     required String countryCode,
     required String regionCode,
+    required double lat,
+    required double lon,
   }) = _City;
 }

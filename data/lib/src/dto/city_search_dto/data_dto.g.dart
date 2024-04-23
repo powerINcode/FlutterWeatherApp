@@ -15,6 +15,7 @@ DataDto _$DataDtoFromJson(Map<String, dynamic> json) => DataDto(
       timeZoneOffset: json['timeZoneOffset'] as String,
       iataCode: json['iataCode'] as String,
       address: AddresDto.fromJson(json['address'] as Map<String, dynamic>),
+      geoCode: GeoCodeDto.fromJson(json['geoCode'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DataDtoToJson(DataDto instance) => <String, dynamic>{
@@ -26,4 +27,5 @@ Map<String, dynamic> _$DataDtoToJson(DataDto instance) => <String, dynamic>{
       'timeZoneOffset': instance.timeZoneOffset,
       'iataCode': instance.iataCode,
       'address': instance.address,
+      'geoCode': instance.geoCode,
     };

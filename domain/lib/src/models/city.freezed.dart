@@ -21,6 +21,8 @@ mixin _$City {
   String get countryName => throw _privateConstructorUsedError;
   String get countryCode => throw _privateConstructorUsedError;
   String get regionCode => throw _privateConstructorUsedError;
+  double get lat => throw _privateConstructorUsedError;
+  double get lon => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CityCopyWith<City> get copyWith => throw _privateConstructorUsedError;
@@ -36,7 +38,9 @@ abstract class $CityCopyWith<$Res> {
       String cityCode,
       String countryName,
       String countryCode,
-      String regionCode});
+      String regionCode,
+      double lat,
+      double lon});
 }
 
 /// @nodoc
@@ -57,6 +61,8 @@ class _$CityCopyWithImpl<$Res, $Val extends City>
     Object? countryName = null,
     Object? countryCode = null,
     Object? regionCode = null,
+    Object? lat = null,
+    Object? lon = null,
   }) {
     return _then(_value.copyWith(
       cityName: null == cityName
@@ -79,6 +85,14 @@ class _$CityCopyWithImpl<$Res, $Val extends City>
           ? _value.regionCode
           : regionCode // ignore: cast_nullable_to_non_nullable
               as String,
+      lat: null == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as double,
+      lon: null == lon
+          ? _value.lon
+          : lon // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -95,7 +109,9 @@ abstract class _$$CityImplCopyWith<$Res> implements $CityCopyWith<$Res> {
       String cityCode,
       String countryName,
       String countryCode,
-      String regionCode});
+      String regionCode,
+      double lat,
+      double lon});
 }
 
 /// @nodoc
@@ -113,6 +129,8 @@ class __$$CityImplCopyWithImpl<$Res>
     Object? countryName = null,
     Object? countryCode = null,
     Object? regionCode = null,
+    Object? lat = null,
+    Object? lon = null,
   }) {
     return _then(_$CityImpl(
       cityName: null == cityName
@@ -135,6 +153,14 @@ class __$$CityImplCopyWithImpl<$Res>
           ? _value.regionCode
           : regionCode // ignore: cast_nullable_to_non_nullable
               as String,
+      lat: null == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as double,
+      lon: null == lon
+          ? _value.lon
+          : lon // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -147,7 +173,9 @@ class _$CityImpl implements _City {
       required this.cityCode,
       required this.countryName,
       required this.countryCode,
-      required this.regionCode});
+      required this.regionCode,
+      required this.lat,
+      required this.lon});
 
   @override
   final String cityName;
@@ -159,10 +187,14 @@ class _$CityImpl implements _City {
   final String countryCode;
   @override
   final String regionCode;
+  @override
+  final double lat;
+  @override
+  final double lon;
 
   @override
   String toString() {
-    return 'City(cityName: $cityName, cityCode: $cityCode, countryName: $countryName, countryCode: $countryCode, regionCode: $regionCode)';
+    return 'City(cityName: $cityName, cityCode: $cityCode, countryName: $countryName, countryCode: $countryCode, regionCode: $regionCode, lat: $lat, lon: $lon)';
   }
 
   @override
@@ -179,12 +211,14 @@ class _$CityImpl implements _City {
             (identical(other.countryCode, countryCode) ||
                 other.countryCode == countryCode) &&
             (identical(other.regionCode, regionCode) ||
-                other.regionCode == regionCode));
+                other.regionCode == regionCode) &&
+            (identical(other.lat, lat) || other.lat == lat) &&
+            (identical(other.lon, lon) || other.lon == lon));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, cityName, cityCode, countryName, countryCode, regionCode);
+  int get hashCode => Object.hash(runtimeType, cityName, cityCode, countryName,
+      countryCode, regionCode, lat, lon);
 
   @JsonKey(ignore: true)
   @override
@@ -199,7 +233,9 @@ abstract class _City implements City {
       required final String cityCode,
       required final String countryName,
       required final String countryCode,
-      required final String regionCode}) = _$CityImpl;
+      required final String regionCode,
+      required final double lat,
+      required final double lon}) = _$CityImpl;
 
   @override
   String get cityName;
@@ -211,6 +247,10 @@ abstract class _City implements City {
   String get countryCode;
   @override
   String get regionCode;
+  @override
+  double get lat;
+  @override
+  double get lon;
   @override
   @JsonKey(ignore: true)
   _$$CityImplCopyWith<_$CityImpl> get copyWith =>

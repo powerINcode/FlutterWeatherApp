@@ -12,9 +12,7 @@ class _AmadeusCityService implements AmadeusCityService {
   _AmadeusCityService(
     this._dio, {
     this.baseUrl,
-  }) {
-    baseUrl ??= 'https://test.api.amadeus.com/v1/reference-data/';
-  }
+  });
 
   final Dio _dio;
 
@@ -48,7 +46,7 @@ class _AmadeusCityService implements AmadeusCityService {
     )
             .compose(
               _dio.options,
-              '/locations',
+              '/reference-data/locations',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -58,42 +56,6 @@ class _AmadeusCityService implements AmadeusCityService {
               baseUrl,
             ))));
     final value = CitySearchDto.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<AmadeusTokenDto> getToken({
-    required String clientId,
-    required String clientSecret,
-    String grantType = 'client_credentials',
-  }) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = {
-      'client_id': clientId,
-      'client_secret': clientSecret,
-      'grant_type': grantType,
-    };
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<AmadeusTokenDto>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-      contentType: 'application/x-www-form-urlencoded',
-    )
-            .compose(
-              _dio.options,
-              '/security/oauth2/token',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = AmadeusTokenDto.fromJson(_result.data!);
     return value;
   }
 

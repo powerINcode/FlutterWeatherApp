@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:core/logger/storage/secure_storage.dart';
-import 'package:data/src/services/auth_service.dart';
+import 'package:data/src/services/amadeus_auth_service.dart';
 import 'package:dio/dio.dart';
 
 import '../dto/amadeus_token_dto.dart';
 
 class AmadeusInterceptor extends Interceptor {
   const AmadeusInterceptor({
-    required AuthService service,
+    required AmadeusAuthService service,
     required SecureStorage storage,
     required String clientId,
     required String clientSecret,
@@ -19,15 +19,14 @@ class AmadeusInterceptor extends Interceptor {
 
   static const _tokenKey = 'tokenKey';
 
-  final AuthService _service;
+  final AmadeusAuthService _service;
   final SecureStorage _storage;
 
   final String _clientId;
   final String _clientSecret;
 
   @override
-  void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     final token = await _getToken();
     options.headers.addAll({'Authorization': 'Bearer $token'});
 

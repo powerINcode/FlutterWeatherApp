@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_service.dart';
+part of 'amadeus_auth_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'auth_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _AuthService implements AuthService {
-  _AuthService(
+class _AmadeusAuthService implements AmadeusAuthService {
+  _AmadeusAuthService(
     this._dio, {
     this.baseUrl,
   });
@@ -41,7 +41,7 @@ class _AuthService implements AuthService {
     )
             .compose(
               _dio.options,
-              'https://test.api.amadeus.com/v1/reference-data/security/oauth2/token',
+              '/security/oauth2/token',
               queryParameters: queryParameters,
               data: _data,
             )

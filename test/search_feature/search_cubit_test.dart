@@ -13,13 +13,18 @@ import '../mocks.dart';
 void main() {
   late SearchCubit cubit;
   late MockWeatherInteractor weatherInteractor;
+  late MockLogger logger;
 
   setUpAll(() => regitsterFakes());
 
   setUp(() {
     weatherInteractor = MockWeatherInteractor();
+    logger = MockLogger();
 
-    cubit = SearchCubit(weatherInteractor: weatherInteractor);
+    cubit = SearchCubit(
+      logger: logger,
+      weatherInteractor: weatherInteractor,
+    );
   });
 
   group('SearchCubit', () {
@@ -29,8 +34,7 @@ void main() {
       expect: () => const <SearchState>[],
     );
 
-    test(
-        "GIVEN intial state of cubit WHEN search for cities THEN emit state with search results",
+    test("GIVEN intial state of cubit WHEN search for cities THEN emit state with search results",
         () async {
       // arrange
       const query = 'Paris';
@@ -60,8 +64,7 @@ void main() {
     });
   });
 
-  test(
-      "GIVEN state with cities WHEN click on a city THEN emit state with weather results",
+  test("GIVEN state with cities WHEN click on a city THEN emit state with weather results",
       () async {
     // arrange
     const query = 'Paris';

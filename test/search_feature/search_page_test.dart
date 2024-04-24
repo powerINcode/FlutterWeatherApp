@@ -22,13 +22,13 @@ void main() {
     weatherInteractor = MockWeatherInteractor();
     di.registerFactory(
       () => SearchCubit(
+        logger: MockLogger(),
         weatherInteractor: weatherInteractor,
       ),
     );
   });
 
-  testWidgets('GIVEN empty state WHEN app launch THEN placeholder is visible',
-      (tester) async {
+  testWidgets('GIVEN empty state WHEN app launch THEN placeholder is visible', (tester) async {
     // arrange
     final page = buildApplication(const SearchPage());
     final placeholder = find.text('Start typing to search cities');
@@ -40,9 +40,7 @@ void main() {
     expect(placeholder, findsOneWidget);
   });
 
-  testWidgets(
-      'GIVEN empty state WHEN user enter city THEN shows list of cities',
-      (tester) async {
+  testWidgets('GIVEN empty state WHEN user enter city THEN shows list of cities', (tester) async {
     // arrange
     const inputKey = Key('input');
     const citiesKey = Key('cities');
@@ -76,9 +74,7 @@ void main() {
     });
   });
 
-  testWidgets(
-      'GIVEN state with cities WHEN user select city THEN shows weather',
-      (tester) async {
+  testWidgets('GIVEN state with cities WHEN user select city THEN shows weather', (tester) async {
     // arrange
     const inputKey = Key('input');
     const firstCityKey = Key('city_0');

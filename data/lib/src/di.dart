@@ -10,7 +10,7 @@ import 'package:data/src/services/open_weather_service.dart';
 import 'package:dio/dio.dart';
 import 'package:domain/index.dart';
 import 'package:get_it/get_it.dart';
-import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 abstract class DataModule {
   static void register(DataConfiguration configuration) {
@@ -70,6 +70,15 @@ abstract class DataModule {
   }
 
   static Dio _buildDio() {
-    return Dio(BaseOptions())..interceptors.add(TalkerDioLogger());
+    return Dio(BaseOptions())
+      ..interceptors.add(PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        compact: true,
+        maxWidth: 90,
+      ));
   }
 }

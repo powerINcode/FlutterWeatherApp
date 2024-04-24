@@ -1,4 +1,3 @@
-import 'package:data/src/dto/amadeus_token_dto.dart';
 import 'package:data/src/dto/city_search_dto/city_search_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/http.dart';

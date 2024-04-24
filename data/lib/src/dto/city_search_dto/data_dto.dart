@@ -29,7 +29,8 @@ class DataDto {
     required this.geoCode,
   });
 
-  factory DataDto.fromJson(Map<String, dynamic> json) => _$DataDtoFromJson(json);
+  factory DataDto.fromJson(Map<String, dynamic> json) =>
+      _$DataDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataDtoToJson(this);
 }

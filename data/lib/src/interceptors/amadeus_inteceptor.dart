@@ -27,9 +27,11 @@ class AmadeusInterceptor extends Interceptor {
   int _tokenExpireIn = 0;
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     final token = await _getToken().onError((error, stackTrace) {
       handler.reject(DioException(requestOptions: options, error: error));
+      return null;
     });
 
     options.headers.addAll({'Authorization': 'Bearer $token'});

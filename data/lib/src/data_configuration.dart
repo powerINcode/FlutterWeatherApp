@@ -26,5 +26,4 @@ class OpenWeatherConfiguration {
 
   final String url;
   final String apiKey;
-
 }

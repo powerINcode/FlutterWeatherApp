@@ -22,13 +22,13 @@ class _OpenWeatherService implements OpenWeatherService {
 
   @override
   Future<WeatherDto> getWeather({
-    required String appid,
+    required String appId,
     required double lat,
     required double lon,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'appid': appid,
+      r'appid': appId,
       r'lat': lat,
       r'lon': lon,
     };

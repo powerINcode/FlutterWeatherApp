@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:domain/index.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,12 +10,6 @@ import 'package:flutter_weather_app/environment_configuration.dart';
 import 'package:flutter_weather_app/firebase_options.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:get_secure_storage/get_secure_storage.dart';
-
-// TODO
-// logging
-// http logging
-// network connection issue
-// environment
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

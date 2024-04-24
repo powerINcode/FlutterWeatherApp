@@ -6,11 +6,11 @@ import 'package:rxdart/rxdart.dart';
 
 class SearchCubit extends Cubit<SearchState> {
   SearchCubit({
-    required WeatherInteractor interactor,
-  })  : _interactor = interactor,
+    required WeatherInteractor weatherInteractor,
+  })  : _weatherInteractor = weatherInteractor,
         super(const SearchState());
 
-  final WeatherInteractor _interactor;
+  final WeatherInteractor _weatherInteractor;
 
   final PublishSubject<String> _querySubject = PublishSubject();
   final CompositeSubscription _compositeSubscription = CompositeSubscription();
@@ -26,7 +26,7 @@ class SearchCubit extends Cubit<SearchState> {
               ),
             );
           })
-          .switchMap((query) => _interactor.search(query).asStream())
+          .switchMap((query) => _weatherInteractor.search(query).asStream())
           .listen((data) {
             emit(state.copyWith(
               cities: data,
@@ -48,7 +48,7 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   Future<void> selectCity(City city) async {
-    final wather = await _interactor.getWeather(city);
+    final wather = await _weatherInteractor.getWeather(city);
     emit(state.copyWith(
       selectedCity: city,
       weather: wather.value,

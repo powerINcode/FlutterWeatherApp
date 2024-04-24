@@ -28,7 +28,7 @@ class Data<T> with _$Data<T> {
     required T value,
   }) = _DataValue;
 
-  bool get loading => this is _DataLoading;
+  bool get isLoading => this is _DataLoading;
   bool get hasError => this is _DataError && error != null;
-  bool get ready => !loading && !hasError;
+  bool get ready => !isLoading && !hasError;
 }

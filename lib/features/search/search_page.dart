@@ -43,12 +43,14 @@ class _SearchPageState extends State<SearchPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   TextField(
+                    key: const Key('input'),
                     controller: _controller,
                     enableSuggestions: false,
                     autocorrect: false,
                     keyboardType: TextInputType.text,
                     textCapitalization: TextCapitalization.words,
-                    decoration: InputDecoration(hintText: context.localize.searchHint),
+                    decoration:
+                        InputDecoration(hintText: context.localize.searchHint),
                     onChanged: (value) {
                       cubit.search(_controller.text);
                     },
@@ -57,6 +59,7 @@ class _SearchPageState extends State<SearchPage> {
                     padding: const EdgeInsets.all(8),
                     child: city != null && weather != null
                         ? Text(
+                            key: const Key('weather'),
                             context.localize.searchWeatherStatus(
                               city.cityName,
                               weather.temp,
@@ -70,14 +73,19 @@ class _SearchPageState extends State<SearchPage> {
                     Expanded(
                       child: LoadingContainer(
                           data: citiesData,
-                          errorBuilder: (context) =>
-                              Center(child: Text(context.localize.commonErrorMessage)),
+                          errorBuilder: (context) => Center(
+                              child: Text(context.localize.commonErrorMessage)),
                           valueBuilder: (context, cities, loading) {
-                            if (!loading && cities.isEmpty && _controller.text.isNotEmpty) {
-                              return Center(child: Text(context.localize.searchCitiesNotFound));
+                            if (!loading &&
+                                cities.isEmpty &&
+                                _controller.text.isNotEmpty) {
+                              return Center(
+                                  child: Text(
+                                      context.localize.searchCitiesNotFound));
                             }
 
                             return _CitiesList(
+                              key: const Key('cities'),
                               cities: cities,
                               onSelectCity: cubit.selectCity,
                             );
@@ -110,6 +118,7 @@ class _CitiesList extends StatelessWidget {
   const _CitiesList({
     required this.cities,
     required this.onSelectCity,
+    super.key,
   });
 
   final List<City> cities;
@@ -119,10 +128,15 @@ class _CitiesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: const EdgeInsets.only(top: 0),
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       itemBuilder: (context, index) {
         final city = cities[index];
 
-        return _CityCard(onSelectCity: onSelectCity, city: city);
+        return _CityCard(
+          key: ValueKey('city_$index'),
+          onSelectCity: onSelectCity,
+          city: city,
+        );
       },
       separatorBuilder: (context, index) => const SizedBox(
         height: 8,
@@ -133,10 +147,7 @@ class _CitiesList extends StatelessWidget {
 }
 
 class _CityCard extends StatefulWidget {
-  const _CityCard({
-    required this.onSelectCity,
-    required this.city,
-  });
+  const _CityCard({required this.onSelectCity, required this.city, super.key});
 
   final AsyncValueSetter<City> onSelectCity;
   final City city;

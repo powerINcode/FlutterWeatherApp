@@ -17,7 +17,7 @@ class OpenWeatherWeatherRepository implements WeatherRepository {
   @override
   Future<Data<Weather>> getWeather({required double lon, required double lat}) {
     return execute(
-      _service.getWeather(appid: _apiKey, lat: lat, lon: lon).then(
+      _service.getWeather(appId: _apiKey, lat: lat, lon: lon).then(
             (dto) => dto.toDomain(),
           ),
     );

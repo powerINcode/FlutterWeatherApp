@@ -8,7 +8,7 @@ abstract class SearchFeatureDependencies {
 
     di.registerFactory(
       () => SearchCubit(
-        interactor: di.get<WeatherInteractor>(),
+        weatherInteractor: di.get<WeatherInteractor>(),
       ),
     );
   }

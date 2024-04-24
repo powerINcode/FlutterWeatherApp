@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 
 class OpenWeatherInterceptor extends Interceptor {

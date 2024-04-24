@@ -24,9 +24,9 @@ class LoadingContainer<T> extends StatelessWidget {
               child: valueBuilder(
             context,
             value,
-            data.loading,
+            data.isLoading,
           )),
-        if (data.loading)
+        if (data.isLoading)
           const Positioned.fill(
             child: Center(
               child: CircularProgressIndicator(),

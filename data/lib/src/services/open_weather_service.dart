@@ -10,7 +10,7 @@ abstract class OpenWeatherService {
 
   @GET('/weather')
   Future<WeatherDto> getWeather({
-    @Query('appid') required String appid,
+    @Query('appid') required String appId,
     @Query('lat') required double lat,
     @Query('lon') required double lon,
   });

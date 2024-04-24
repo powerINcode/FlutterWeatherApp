@@ -1,0 +1,18 @@
+{
+    "@@locale": "en",
+    "commonErrorMessage": "Something went wrong. Please try later",
+    "searchWeatherStatus": "{city} is {temp} F",
+    "@searchWeatherStatus": {
+        "placeholders": {
+            "city": {
+                "type": "String"
+            },
+            "temp": {
+                "type": "num"
+            }
+        }
+    },
+    "searchCitiesNotFound": "Not able to find such city",
+    "searchPlaceholder": "Start typing to search cities",
+    "searchHint": "Search"
+}

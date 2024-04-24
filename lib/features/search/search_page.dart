@@ -1,8 +1,9 @@
-import 'package:core/data/data.dart';
+import 'package:core/widgets/loading_container.dart';
 import 'package:domain/index.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_weather_app/extensions/build_context_extensions.dart';
 import 'package:flutter_weather_app/features/search/search_cubit.dart';
 import 'package:flutter_weather_app/features/search/search_state.dart';
 import 'package:get_it/get_it.dart';
@@ -43,6 +44,11 @@ class _SearchPageState extends State<SearchPage> {
                 children: [
                   TextField(
                     controller: _controller,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    keyboardType: TextInputType.text,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: InputDecoration(hintText: context.localize.searchHint),
                     onChanged: (value) {
                       cubit.search(_controller.text);
                     },
@@ -50,7 +56,12 @@ class _SearchPageState extends State<SearchPage> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     child: city != null && weather != null
-                        ? Text('${city.cityName} is ${weather.temp} F')
+                        ? Text(
+                            context.localize.searchWeatherStatus(
+                              city.cityName,
+                              weather.temp,
+                            ),
+                          )
                         : const Text(''),
                   ),
                   if (_controller.text.isEmpty)
@@ -59,10 +70,11 @@ class _SearchPageState extends State<SearchPage> {
                     Expanded(
                       child: LoadingContainer(
                           data: citiesData,
-                          errorBuilder: (context) => Center(child: Text('Error')),
+                          errorBuilder: (context) =>
+                              Center(child: Text(context.localize.commonErrorMessage)),
                           valueBuilder: (context, cities, loading) {
                             if (!loading && cities.isEmpty && _controller.text.isNotEmpty) {
-                              return Center(child: Text('Not able to find such city'));
+                              return Center(child: Text(context.localize.searchCitiesNotFound));
                             }
 
                             return _CitiesList(
@@ -82,15 +94,13 @@ class _SearchPageState extends State<SearchPage> {
 }
 
 class _InitialState extends StatelessWidget {
-  const _InitialState({
-    super.key,
-  });
+  const _InitialState();
 
   @override
   Widget build(BuildContext context) {
-    return const Expanded(
+    return Expanded(
       child: Center(
-        child: Text('Start typing to search cities'),
+        child: Text(context.localize.searchPlaceholder),
       ),
     );
   }
@@ -103,7 +113,7 @@ class _CitiesList extends StatelessWidget {
   });
 
   final List<City> cities;
-  final ValueSetter<City> onSelectCity;
+  final AsyncValueSetter<City> onSelectCity;
 
   @override
   Widget build(BuildContext context) {
@@ -112,16 +122,7 @@ class _CitiesList extends StatelessWidget {
       itemBuilder: (context, index) {
         final city = cities[index];
 
-        return InkWell(
-          onTap: () {
-            onSelectCity(city);
-          },
-          child: Card(
-              child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(city.cityName),
-          )),
-        );
+        return _CityCard(onSelectCity: onSelectCity, city: city);
       },
       separatorBuilder: (context, index) => const SizedBox(
         height: 8,
@@ -131,38 +132,52 @@ class _CitiesList extends StatelessWidget {
   }
 }
 
-class LoadingContainer<T> extends StatelessWidget {
-  const LoadingContainer({
-    super.key,
-    required this.data,
-    required this.errorBuilder,
-    required this.valueBuilder,
+class _CityCard extends StatefulWidget {
+  const _CityCard({
+    required this.onSelectCity,
+    required this.city,
   });
 
-  final Data<T> data;
-  final WidgetBuilder errorBuilder;
-  final Function(BuildContext, T value, bool loading) valueBuilder;
+  final AsyncValueSetter<City> onSelectCity;
+  final City city;
+
+  @override
+  State<_CityCard> createState() => _CityCardState();
+}
+
+class _CityCardState extends State<_CityCard> {
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
-    final value = data.value;
-    return Stack(
-      children: [
-        if (data.hasError) Positioned.fill(child: errorBuilder(context)),
-        if (value != null)
-          Positioned.fill(
-              child: valueBuilder(
-            context,
-            value,
-            data.loading,
-          )),
-        if (data.loading)
-          const Positioned.fill(
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-      ],
+    return InkWell(
+      onTap: _loading
+          ? null
+          : () async {
+              setState(() {
+                _loading = true;
+              });
+              await widget.onSelectCity(widget.city);
+              setState(() {
+                _loading = false;
+              });
+            },
+      child: Card(
+        child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(widget.city.cityName),
+                if (_loading)
+                  const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(),
+                  )
+              ],
+            )),
+      ),
     );
   }
 }
